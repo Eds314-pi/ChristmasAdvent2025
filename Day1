@@ -1,0 +1,92 @@
+using namespace std;
+#include <iostream>
+#include <fstream>
+#include <string>
+#define public 
+    public int num=50;
+
+
+//used for part 1
+    int spin1(char direction, int turns, int num)
+    {
+        if (direction == 'L')
+        {
+            num=(num - turns)%100;
+            if (num < 0)
+            {
+                num += 100;
+            }
+        }
+        if (direction == 'R')
+        {
+            num=(num + turns)%100;
+            if (num > 99)
+            {
+                num -= 100;
+            }
+        }
+        cout << num << endl;
+        return num;
+    }
+//used for part 2
+    int spin2(char direction, int turns) 
+    {
+        int amount = 0;
+        if (direction == 'L') 
+        {
+            for( int x = 0; x < turns; x++)
+            {
+                num -= 1;
+                if (num == 0) 
+                {
+                    amount += 1;
+                }
+                if (num == -1) 
+                {
+                    num = 99;
+                }
+            }
+        }
+
+        if (direction == 'R') 
+        {
+            for (int x = 0; x < turns; x++)
+            {
+                num += 1;
+                if (num == 100) 
+                {
+                    num = 0;
+                    amount += 1;
+                }
+            }
+        }
+
+
+        return amount;
+    }
+    int comboSplit(string line)
+    {
+
+        char Direction;
+        Direction = line.at(0);
+        int turns = stoi(line.substr(1, line.length()));
+        //num = spin(Direction, turns, num);
+        return spin2(Direction, turns);
+        
+    }
+    int main()
+    {
+        int x=0;
+        ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\L3.txt");
+        string combo;
+        while (getline(f, combo))
+        {
+            //cout << combo << endl;
+            x+=comboSplit(combo);
+            
+        }
+        cout << x << endl;
+    }
+
+    
+    
