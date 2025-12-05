@@ -1,0 +1,45 @@
+using namespace std;
+#include <fstream>
+#include <iostream>
+#include <string>
+long long FindDigits(string line,int batts, long long jolts) 
+{
+    int digit = 9;
+    while (digit > 0 && batts>0) 
+    {
+        for (int i = 0; i < line.length(); i++) 
+        {
+            if (line[i] - '0' == digit && i+batts-1<line.length()) 
+            {
+                long long newJolts = jolts * 10 + digit;
+                long long result=FindDigits(line.substr(i + 1), batts - 1, newJolts);
+                if (result != 0)
+                {
+                    return result;
+                }
+                return newJolts;
+            }
+        }
+        digit--;
+    }
+    return jolts;
+}
+
+
+
+int main()
+{
+    ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\Day3.txt");
+    string batteries;
+    string total = "0";
+    long long joltage=0;
+    while (getline(f, batteries))
+    {
+        //                    Line, num of batteries, inital value (do not change)
+        joltage+=(FindDigits(batteries, 12, 0));
+        
+        
+    }
+    cout << joltage << endl;
+}
+
