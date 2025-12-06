@@ -1,0 +1,96 @@
+#include <cmath>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <regex>
+using namespace std;
+//part1
+long long IDChecker1(long long start, long long end) 
+{
+    
+    long long amount = 0;
+    for (long long i = start; i <= end; i++) 
+    {
+        
+        string ID = to_string(i);
+        string left = ID.substr(0, ID.length() / 2);
+        if (ID.length() % 2 == 0) 
+        {
+            
+            string left=ID.substr(0, ID.length() / 2);
+            string right = ID.substr(ID.length() / 2);
+            if (left==right)
+            {
+                cout << i << endl;
+                amount += i;
+            }
+        }
+    }
+    return amount;
+
+}
+
+//part 2
+long long IDChecker2(long long start, long long end) 
+{
+    
+    long long amount = 0;
+    for (long long i = start; i <=end; i++) 
+    {
+        bool correct = false;
+        string ID = to_string(i);
+        for (int n = 1; n <= ID.length()/ 2; n++) 
+        {
+            
+            if (ID.length() % n == 0)
+            {
+                
+                string Part = ID.substr(0, n);
+                bool temp = true;
+                for (int begin = 0; begin < ID.length(); begin += n) 
+                {
+                    if (ID.compare(begin, n, Part) != 0) 
+                    {
+                        temp=false;
+                        break;
+                    }
+                    
+                }
+                if (temp == true) 
+                {
+                    correct = true;
+                    break;
+                }
+            }
+        }
+        if (correct)
+        {
+            amount += i;
+
+        }
+       
+    }
+
+
+
+    return amount;
+}
+long long setup(string range) 
+{
+    int dashPos = (int)range.find('-');
+    long long start = stoll(range.substr(0, dashPos));
+    long long end = stoll(range.substr(dashPos+1));
+    return IDChecker2(start, end);
+}
+int main()
+{
+    ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\Day2.txt");
+    string range;
+    long long x = 0;
+    while (getline(f, range,','))
+    {
+        x += setup(range);
+    }
+    cout << x << endl;
+   
+}
