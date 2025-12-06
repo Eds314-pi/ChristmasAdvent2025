@@ -29,7 +29,7 @@ long long FindDigits(string line,int batts, long long jolts)
 
 int main()
 {
-    ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\Day3.txt");
+    ifstream f("Day3.txt");
     string batteries;
     string total = "0";
     long long joltage=0;
