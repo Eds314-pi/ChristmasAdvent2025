@@ -84,7 +84,7 @@ long long setup(string range)
 }
 int main()
 {
-    ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\Day2.txt");
+    ifstream f("Day2.txt");
     string range;
     long long x = 0;
     while (getline(f, range,','))
