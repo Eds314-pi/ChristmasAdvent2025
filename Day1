@@ -77,7 +77,7 @@ using namespace std;
     int main()
     {
         int x=0;
-        ifstream f("C:\\Users\\edshe\\OneDrive\\Documents\\L3.txt");
+        ifstream f("L3.txt");
         string combo;
         while (getline(f, combo))
         {
