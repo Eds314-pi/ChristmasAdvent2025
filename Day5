@@ -1,0 +1,102 @@
+using namespace std;
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+//Part 1
+long long freshCount(vector<string> range, vector<long long> ID) 
+{
+	long long Fresh = 0;
+	for (long long i = 0; i < ID.size(); i++) 
+	{
+		for (int j = 0; j < range.size(); j++) 
+		{
+			int dashPos = range[j].find('-');
+			long long start = stoll(range[j].substr(0, dashPos));
+			long long end = stoll(range[j].substr(dashPos + 1));
+			if (start <= ID[i] && ID[i] <= end) 
+			{
+				Fresh += 1;
+				break;
+			}
+
+		}
+	}
+	return Fresh;
+}
+//part 2
+vector<pair<long long, long long>> rangeMerger(vector<string>range) 
+{
+	vector<pair<long long, long long>> sets;
+	for (string r : range) 
+	{
+		int dashPos = r.find('-');
+		long long start = stoll(r.substr(0, dashPos));
+		long long end = stoll(r.substr(dashPos + 1));
+		sets.push_back(make_pair(start, end));
+
+	}
+	vector<pair<long long, long long>> merged;
+	sort(sets.begin(), sets.end());
+	for (auto& p : sets) 
+	{
+		long long start = p.first;
+		long long end = p.second;
+		if (merged.empty() || start > merged.back().second) 
+		{
+			merged.push_back(p);
+			
+		}
+		else 
+		{
+			merged.back().second = (max(merged.back().second, end));
+		}
+	}
+	
+	
+	return merged;
+}
+long long FreshCount2(vector<string> range) 
+{
+	long long Fresh = 0;
+	vector<pair<long long, long long>> merged = rangeMerger(range);
+	for (auto& p: merged) 
+	{
+		long long start = p.first;
+		long long end = p.second;
+		Fresh += (end - start+1);
+	}
+	return Fresh;
+}
+
+int main()
+{
+	ifstream f("Day5.txt");
+	string line;
+	vector<string> range;
+	vector<long long> ID;
+	bool RorID = true;
+	while (getline(f, line))
+	{
+		if (line.empty())
+		{
+			cout << "hi" << endl;
+			RorID=false;
+			//line skip
+			getline(f, line);
+		}
+		if (RorID) 
+		{
+			range.push_back(line);
+		}
+		else 
+		{
+			ID.push_back(stoll(line));
+		}
+	}
+	//Part 1
+	// cout << freshCount(range, ID) << endl;
+	cout << FreshCount2(range) << endl;
+
+}
