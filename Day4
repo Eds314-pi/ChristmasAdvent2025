@@ -1,0 +1,85 @@
+using namespace std;
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+//First number returned is answer to part 1
+long long paperChecker(vector<vector<char>> grid)
+{
+    vector<pair<long long, long long>> cords;
+    long long Atcounter = 0;
+    bool changed = true;
+    while(changed)
+    {
+        cords.clear();
+        changed = false;
+        for (int i = 0; i < grid.size(); i++)
+        {
+            for (int j = 0; j < grid[i].size(); j++)
+            {
+                if (grid[i][j] == '@')
+                {
+                    cords.push_back({ i,j });
+                }
+            }
+        }
+        for (auto& p : cords)
+        {
+            long long x = p.first;
+            long long y = p.second;
+            int adjacent = 0;
+            for (int x_change = -1; x_change <= 1; x_change++)
+            {
+                for (int y_change = -1; y_change <= 1; y_change++)
+                {
+                    if (x_change == 0 && y_change == 0)
+                    {
+                        continue;
+                    }
+                    if (find(cords.begin(), cords.end(), make_pair(x + x_change, y + y_change)) != cords.end())
+                    {
+                        adjacent++;
+
+                    }
+                }
+            }
+
+            if (adjacent < 4)
+            {
+                Atcounter += 1;
+                grid[x][y] = '.';
+                changed = true;
+
+            }
+        }
+        cout << Atcounter << endl;
+    }
+    return Atcounter;
+}
+
+int main()
+{
+    ifstream f("Day4.txt");
+    string row;
+    vector<vector<char>> grid;
+    int totalRemoved = 0;
+    while (getline(f, row)) 
+    {
+        vector<char> charRow(row.length());
+        for (int i = 0; i < row.length(); i++)
+        {
+            charRow[i] = row.at(i);
+        }
+        grid.push_back(charRow);
+       
+        
+    }
+    paperChecker(grid);
+    
+    
+   
+}
+
